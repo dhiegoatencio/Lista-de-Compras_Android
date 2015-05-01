@@ -1,0 +1,7 @@
+ngStorage // para gravar dados localmente de forma facilitada
+
+===================
+
+window.open(element.href, "_system", "location=no"); //para abrir links (não deixar passar pelo angular)
+
+cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git    // rodar na pasta do projeto, é referente ao comando acima
