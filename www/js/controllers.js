@@ -13,8 +13,8 @@ angular.module('controllers', ['ionic'])
 	    // An elaborate, custom popup
 	    var myPopup = $ionicPopup.show({
 		    template: '<input type="text" ng-model="data.text" autofocus>',
-		    title: 'Nova tarefa',
-		    subTitle: 'Adicione a descrição da tarefa',
+		    title: 'Novo item',
+		    subTitle: 'Adicione a descrição do item',
 		    scope: $scope,
 		    buttons: [
 		       {	text: 'Cancelar'	},
@@ -87,7 +87,7 @@ angular.module('controllers', ['ionic'])
 	    var helpPopup = $ionicPopup.show({
 	    	title: 'Ajuda',
 	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar itens já comprados.' +
-	    	          '<br><hr>Desenvolvedor: Dhiego Hendrix Atencio' ,
+	    	          '<br><hr>Desenvolvedor: <a href="https://br.linkedin.com/pub/dhiego-hendrix-atencio/29/ba0/2bb">Dhiego Hendrix</a>' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 	    });
 
