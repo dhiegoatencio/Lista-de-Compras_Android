@@ -119,6 +119,6 @@ angular.module('controllers', ['ionic'])
 	    });
 	    $timeout(function() {
 	      	avaliePopup.close();
-	    }, 15000);
+	    }, 30000);
 	}
 });
