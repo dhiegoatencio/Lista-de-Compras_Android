@@ -98,7 +98,7 @@ angular.module('controllers', ['ionic'])
 	    var helpPopup = $ionicPopup.show({
 	    	title: 'Ajuda',
 	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar itens já comprados.' +
-	    			  '<br><br>Deslize o dedo para a direita em um item para apagá-lo.' +
+	    			  '<br><br>Deslize o dedo para a esquerda para exibir as opções do item.' +
 	    	          '<br><hr>Desenvolvedor: <a href="https://br.linkedin.com/pub/dhiego-hendrix-atencio/29/ba0/2bb">Dhiego Hendrix</a>' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 	    });
