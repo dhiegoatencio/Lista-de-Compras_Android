@@ -58,9 +58,7 @@
         </div>
     </ion-header-bar>
 
-    <ion-content has-header="true"
-                 has-footer="true"
-                 padding="true">
+    <ion-content has-header="true" has-footer="true">
 <!--  vou implementar em alguma versão futura
           
           <label class="item item-input">
@@ -68,20 +66,30 @@
               <input type="text" placeholder="Busca">
           </label>
         -->
+      <ion-list can-swipe="true">
+          <ion-item ng-if="todoList.$storage.todos.length == 0">
+              Adicione item com o <i class="icon ion-plus-round"></i> do rodapé
+          </ion-item>
 
-        <ion-list>
-            <ion-item class="item item-checkbox"
-                  ng-repeat="todo in todoList.$storage.todos"
-                  show-reorder="true"
-                  on-swipe-right="todoList.removeItem($index)">
-                 <label class="checkbox">
-                      <input type="checkbox" ng-model="todo.done">
-                 </label>
-                  <span class="done-{{todo.done}}">
-                      {{todoList.getDescricaoItem(todo)}}
-                  </span>
-            </ion-item>
-        </ion-list>
+          <ion-item ng-repeat="item in todoList.$storage.todos"
+                    item="item"
+                    item-type="item-icon-right"
+                    ng-click="item.done = !item.done"
+                    class="item item-icon-right">
+
+              <i ng-if="item.done" class="ion-checkmark-circled positive" style="font-size: 150%; "></i>
+              <span class="done-{{item.done}}">
+                  {{todoList.getDescricaoItem(item)}}
+              </span>
+              <i class="icon ion-chevron-right positive dark" style="font-size: 100%; "></i>
+             <!-- <ion-option-button class="button-positive">Editar</ion-option-button> -->
+              <ion-option-button class="button-assertive"
+                                 ng-click="todoList.removeItem($index)">
+                  Excluir
+              </ion-option-button>
+
+          </ion-item>
+      </ion-list>
     </ion-content>
 
     <ion-footer-bar class="tabs tabs-icon-left tabs-dark">
