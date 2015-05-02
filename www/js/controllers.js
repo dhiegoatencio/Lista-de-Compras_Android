@@ -5,6 +5,9 @@ angular.module('controllers', ['ionic'])
     var todoList = this;
     todoList.$storage = $localStorage.$default({ todos: [] });
 
+    todoList.itemTemp = {};
+    todoList.indexEditing = {};
+
 	//init the modal
 	$ionicModal.fromTemplateUrl('modalAddItem.tpl', {
 		scope: $scope,
@@ -17,38 +20,55 @@ angular.module('controllers', ['ionic'])
 	// function to close the modal
 	todoList.closeModal = function () {
 		todoList.modal.hide();
-
+        todoList.indexEditing = "";
+        todoList.itemTemp     = "";
 	};
 
 	// function to open the modal
 	todoList.openModal = function () {
-		todoList.modal.show();
+		todoList.indexEditing = "";
 		todoList.statusItem = "";
+		todoList.modal.show();
 		focus('text');
+	};
+
+	todoList.editItem = function(item, index){
+		todoList.indexEditing = index;
+		todoList.itemTemp     = {text: item.text, qtd: item.qtd, done: item.done};
+		todoList.statusItem = "";
+		todoList.modal.show();
 	};
 
 	//Cleanup the modal when we're done with it!
 	$scope.$on('$destroy', function () { todoList.modal.remove(); });
 
 	//function to add items to the existing list
-	todoList.addItem = function (data) {
+	todoList.addItem = function (data, idxItemEdited) {
 		if (!data) return;
 		if (!data.text) return;
 
-        todoList.$storage.todos.push({
-	      	text:data.text,
-	      	qtd: data.quantidade,
-	      	done:false
-      	});
-	  	data.text = '';
-	  	data.quantidade = '';
-	    todoList.statusItem = "Salvo com sucesso!";
-	  	focus('text');
-	  	cordova.plugins.Keyboard.show();
+		if (!idxItemEdited) {
+	        todoList.$storage.todos.push({
+		      	text:data.text,
+		      	qtd: data.qtd,
+		      	done:false
+	      	});
+	      	focus('text');
+		  	data.text = '';
+		  	data.qtd = '';
+		    todoList.statusItem = "Salvo com sucesso!";
+		} else {
+			todoList.$storage.todos.splice(idxItemEdited, 1, {
+				text: data.text,
+				qtd: data.qtd,
+				done: data.done
+			});
+			todoList.indexEditing = "";
+			todoList.closeModal()
+		}
 	};
 
 	todoList.removeItem = function (idx) {
-		var itemToDelete = todoList.$storage.todos[idx];
 		todoList.$storage.todos.splice(idx, 1);
 	};
 

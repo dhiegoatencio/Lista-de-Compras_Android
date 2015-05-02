@@ -75,14 +75,17 @@
                     item="item"
                     item-type="item-icon-right"
                     ng-click="item.done = !item.done"
-                    class="item item-icon-right">
+                    class="item item-icon-right done-background-color-{{item.done}}">
 
               <i ng-if="item.done" class="ion-checkmark-circled positive" style="font-size: 150%; "></i>
-              <span class="done-{{item.done}}">
+              <span class="done-text-{{item.done}}">
                   {{todoList.getDescricaoItem(item)}}
               </span>
               <i class="icon ion-chevron-right positive dark" style="font-size: 100%; "></i>
-             <!-- <ion-option-button class="button-positive">Editar</ion-option-button> -->
+              <ion-option-button class="button-positive"
+                                 ng-click="todoList.editItem(item, $index)">
+                  Editar
+              </ion-option-button>
               <ion-option-button class="button-assertive"
                                  ng-click="todoList.removeItem($index)">
                   Excluir
@@ -116,17 +119,17 @@
 
     <br></br>
 
-    <form ng-submit="todoList.addItem(data)">
+    <form ng-submit="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
         <div class="list">
             <div class="list list-inset">
                 <label class="item item-input">
                     <span class="input-label">Descrição do item:</span>
                     <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
-                           ng-model="data.text" ng-keydown="todoList.atualizaStatusItem(data.text)">
+                           ng-model="todoList.itemTemp.text" ng-keydown="todoList.atualizaStatusItem(todoList.itemTemp.text)">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Quantidade:</span>
-                    <input type="number" ng-model="data.quantidade">
+                    <input type="number" ng-model="todoList.itemTemp.qtd">
                 </label>
             </div>
             <button class="button button-block button-positive" type="submit">

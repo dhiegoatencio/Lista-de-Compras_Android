@@ -1,5 +1,9 @@
 /* Empty. Add your own CSS if you like */
-.done-true {
-  text-decoration: line-through;
+.done-background-color-true {
+  background-color: #EBEBEB;
+}
+
+.done-text-true {
   color: grey;
+  text-decoration: line-through;
 }
