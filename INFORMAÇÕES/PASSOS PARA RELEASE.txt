@@ -1,3 +1,5 @@
+***** primeiro build *******
+
 1 - na pasta do projeto
 cordova build --release android
 
@@ -5,15 +7,24 @@ cordova build --release android
 2 - se for a primeira vez que estiver gerando release, entrar onde deu o output do apk e rodar:
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000 
 
-
 (armazer o my-release-key.keystore para ser possível gerar próximas releases)
 
-3 - na mesma pasta - trocar pelo nome da sua apk:
+
+****************** releases **********************
+
+
+1 - na pasta do projeto
+cordova build --release android
+
+3 - na pasta da apk gerada:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore android-release-unsigned.apk alias_name
 
 
 4 - otimizar a apk:
 zipalign -v 4 android-release-unsigned.apk ListaDeComprasSimplificada.apk
+
+
+
 
 obs: se der erro de ipalign não encontrado copiar o "zipalign.exe" de C:\android-sdk-win\build-tools\20.0.0 para C:\android-sdk-win\tools
 
