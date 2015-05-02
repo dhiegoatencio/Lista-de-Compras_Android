@@ -98,14 +98,12 @@
         </div>
       </ion-footer>
 
-
-
       <script id="modalAddItem.tpl" type="text/ng-template">
       <div class="modal">
 
           <div class="bar bar-header bar-calm">
               <button class="button" ng-click="todoList.closeModal()">Fechar</button>
-              <h1 class="title">Adicionar item</h1>
+              <h1 class="title">{{todoList.statusItem}}</h1>
           </div>
 
           <br></br>
@@ -126,9 +124,6 @@
                   <button class="button button-block button-positive" type="submit">
                       Salvar
                   </button>
-              </div>
-              <div style="align:center">
-              <h3 class="calm" style="text-align:center">{{todoList.statusItem}}</h3>
               </div>
           </form>
 

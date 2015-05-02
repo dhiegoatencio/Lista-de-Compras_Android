@@ -16,3 +16,11 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.
 zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
 
 obs: se der erro de ipalign não encontrado copiar o "zipalign.exe" de C:\android-sdk-win\build-tools\20.0.0 para C:\android-sdk-win\tools
+
+
+******
+
+Unidade Organizacional: Don Apps
+Empresa: Don Apps
+
+senhas: donapps

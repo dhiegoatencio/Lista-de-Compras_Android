@@ -8,17 +8,22 @@ angular.module('controllers', ['ionic'])
 	//init the modal
 	$ionicModal.fromTemplateUrl('modalAddItem.tpl', {
 		scope: $scope,
-		animation: 'slide-in-up'
+		animation: 'slide-in-up',
+		focusFirstInput: true
 	}).then(function (modal) {
 	  	todoList.modal = modal;
 	});
 
 	// function to close the modal
-	todoList.closeModal = function () { todoList.modal.hide(); };
+	todoList.closeModal = function () {
+		todoList.modal.hide();
+
+	};
 
 	// function to open the modal
 	todoList.openModal = function () {
 		todoList.modal.show();
+		todoList.statusItem = "";
 		focus('text');
 	};
 
@@ -39,6 +44,7 @@ angular.module('controllers', ['ionic'])
 	  	data.quantidade = '';
 	    todoList.statusItem = "Salvo com sucesso!";
 	  	focus('text');
+	  	cordova.plugins.Keyboard.show();
 	};
 
 	todoList.removeItem = function (idx) {
