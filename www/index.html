@@ -21,7 +21,7 @@
     <!-- libs adicionadas -->
     <script src="lib/ngstorage/ngStorage.min.js"></script>
 
-    <!-- your app's js -->
+     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script>
@@ -53,7 +53,6 @@
               <a ng-click="todoList.help()" class="button button-icon icon icon-right ion-help"></a>
           </div>
       </ion-header-bar>
-
       <ion-content has-header="true">
 
 
@@ -64,22 +63,27 @@
               <input type="text" placeholder="Busca">
           </label>
         -->
- 
-          <ul class="list">  
-              <li class="item item-checkbox" ng-repeat="todo in todoList.$storage.todos">
+
+
+          <ul class="list" show-reorder="true">  
+              <li class="item item-checkbox"
+                  ng-repeat="todo in todoList.$storage.todos"
+                  on-swipe-right="todoList.removeItem($index)">
                  <label class="checkbox">
 
                       <input type="checkbox" ng-model="todo.done">
                  </label>
-                  <span class="done-{{todo.done}}">{{todo.text}}</span>
+                  <span class="done-{{todo.done}}">
+                      {{todoList.getDescricaoItem(todo)}}
+                  </span>
               </li>
           </ul>
 
       </ion-content>
 
-      <ion-footer-bar>
+      <ion-footer>
         <div class="tabs tabs-icon-left tabs-dark">
-            <a class="tab-item" ng-click="todoList.showPopup()">
+            <a class="tab-item" ng-click="todoList.openModal()">
                 <i class="icon ion-plus-round"></i>
                 Adicionar
             </a>
@@ -92,6 +96,43 @@
                 Jogo
             </a>
         </div>
-      </ion-footer-bar>
+      </ion-footer>
+
+
+
+      <script id="modalAddItem.tpl" type="text/ng-template">
+      <div class="modal">
+
+          <div class="bar bar-header bar-calm">
+              <button class="button" ng-click="todoList.closeModal()">Fechar</button>
+              <h1 class="title">Adicionar item</h1>
+          </div>
+
+          <br></br>
+
+          <form ng-submit="todoList.addItem(data)">
+              <div class="list">
+                  <div class="list list-inset">
+                      <label class="item item-input">
+                          <span class="input-label">Descrição do item:</span>
+                          <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
+                                 ng-model="data.text" ng-keydown="todoList.atualizaStatusItem(data.text)">
+                      </label>
+                      <label class="item item-input">
+                          <span class="input-label">Quantidade:</span>
+                          <input type="number" ng-model="data.quantidade">
+                      </label>
+                  </div>
+                  <button class="button button-block button-positive" type="submit">
+                      Salvar
+                  </button>
+              </div>
+              <div style="align:center">
+              <h3 class="calm" style="text-align:center">{{todoList.statusItem}}</h3>
+              </div>
+          </form>
+
+      </div>
+      </script>
   </body>
 </html>

@@ -1,53 +1,54 @@
 angular.module('controllers', ['ionic'])
-.controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage) {
+.controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
+	                                        focus, $ionicModal) {
 
     var todoList = this;
+    todoList.$storage = $localStorage.$default({ todos: [] });
 
-    todoList.$storage = $localStorage.$default({
-        todos: []
-    });
+	//init the modal
+	$ionicModal.fromTemplateUrl('modalAddItem.tpl', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function (modal) {
+	  	todoList.modal = modal;
+	});
 
-	todoList.showPopup = function() {
-	   $scope.data = {}
+	// function to close the modal
+	todoList.closeModal = function () { todoList.modal.hide(); };
 
-	    // An elaborate, custom popup
-	    var myPopup = $ionicPopup.show({
-		    template: '<input type="text" ng-model="data.text" autofocus>',
-		    title: 'Novo item',
-		    subTitle: 'Adicione a descrição do item',
-		    scope: $scope,
-		    buttons: [
-		       {	text: 'Cancelar'	},
-		       {    text: '<b>Salvar</b>',
-		         	type: 'button-positive',
-		         	onTap: function(e) {
-			           	if (!$scope.data.text) {
-			            	//don't allow the user to close unless he enters wifi password
-			             	e.preventDefault();
-			           	} else {
-			             	return $scope.data.text;
-			           	}
-		        	}
-		       },
-		    ]
-	   });
-	   myPopup.then(function(res) {
-	   		if (res) {
-	   			todoList.todoText = res;
-	   			todoList.addTodo();
-	   		}
-
-	     	console.log('Tapped!', res);
-	   });
-	   $timeout(function() {
-	      	myPopup.close(); //close the popup after 15 seconds for some reason
-	   }, 15000);
+	// function to open the modal
+	todoList.openModal = function () {
+		todoList.modal.show();
+		focus('text');
 	};
 
-    todoList.addTodo = function() {
-      todoList.$storage.todos.push({text:todoList.todoText, done:false});
-      todoList.todoText = '';
-    };
+	//Cleanup the modal when we're done with it!
+	$scope.$on('$destroy', function () { todoList.modal.remove(); });
+
+	//function to add items to the existing list
+	todoList.addItem = function (data) {
+		if (!data) return;
+		if (!data.text) return;
+
+        todoList.$storage.todos.push({
+	      	text:data.text,
+	      	qtd: data.quantidade,
+	      	done:false
+      	});
+	  	data.text = '';
+	  	data.quantidade = '';
+	    todoList.statusItem = "Salvo com sucesso!";
+	  	focus('text');
+	};
+
+	todoList.removeItem = function (idx) {
+		var itemToDelete = todoList.$storage.todos[idx];
+		todoList.$storage.todos.splice(idx, 1);
+	};
+
+	todoList.atualizaStatusItem = function(text) {
+		if (text) todoList.statusItem = "";
+	};
 
     todoList.archive = function() {
       var oldTodos = todoList.$storage.todos;
@@ -56,6 +57,11 @@ angular.module('controllers', ['ionic'])
         if (!todo.done) todoList.$storage.todos.push(todo);
       });
     };
+
+    todoList.getDescricaoItem = function(data){
+    	if (data.qtd) return data.qtd + " - " + data.text;
+    	return data.text;
+    }
 
 	// A confirm dialog
 	todoList.confirmArchive = function() {
@@ -82,11 +88,11 @@ angular.module('controllers', ['ionic'])
 	    }, 7000);
 	};
 
-	// A confirm dialog
 	todoList.help = function() {
 	    var helpPopup = $ionicPopup.show({
 	    	title: 'Ajuda',
 	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar itens já comprados.' +
+	    			  '<br><br>Deslize o dedo para a direita em um item para apagá-lo.' +
 	    	          '<br><hr>Desenvolvedor: <a href="https://br.linkedin.com/pub/dhiego-hendrix-atencio/29/ba0/2bb">Dhiego Hendrix</a>' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 	    });

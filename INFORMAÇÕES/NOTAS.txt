@@ -12,6 +12,5 @@ cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappb
 
 LICENSE
 
-** icon : http://www.iconarchive.com/show/small-n-flat-icons-by-paomedia/file-note-icon.html
+** icon : http://www.iconarchive.com/show/e-commerce-icons-by-webiconset/empty-shopping-cart-icon.html
 	GNU General Public License
-	file-note-icon.png
