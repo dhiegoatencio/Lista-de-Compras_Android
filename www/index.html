@@ -67,14 +67,18 @@
         -->
       <ion-list can-swipe="true">
           <ion-item ng-if="todoList.$storage.todos.length == 0">
-              Adicione item com o <i class="icon ion-plus-round"></i> do rodapé
+              Adicione item com o <i class="icon ion-plus-round"></i> do rodapé.
+          </ion-item>
+          <ion-item ng-if="todoList.$storage.todos.length == 0">
+              Me arraste para << e veja opções.
+              <ion-option-button class="button-positive">Exemplo</ion-option-button>
+              <ion-option-button class="button-assertive">Exemplo</ion-option-button>
           </ion-item>
 
           <ion-item ng-repeat="item in todoList.$storage.todos"
                     item="item"
-                    item-type="item-icon-right"
                     ng-click="item.done = !item.done"
-                    class="item item-icon-right done-background-color-{{item.done}}">
+                    class="done-background-color-{{item.done}} item">
 
               <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
               <span class="done-text-{{item.done}}">
@@ -88,6 +92,7 @@
                                  ng-click="todoList.removeItem($index)">
                   Excluir
               </ion-option-button>
+
           </ion-item>
       </ion-list>
     </ion-content>
@@ -124,15 +129,16 @@
                 <label class="item item-input">
                     <span class="input-label">Item:</span>
                     <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
-                           ng-model="todoList.itemTemp.text" ng-keydown="todoList.atualizaStatusItem(todoList.itemTemp.text)">
+                           ng-model="todoList.itemTemp.text"
+                           ng-keydown="todoList.keyDownItemForm($event)">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Quantidade:</span>
-                    <input type="number" focus-on="qtd" ng-model="todoList.itemTemp.qtd">
+                    <input type="number" focus-on="qtd"
+                           ng-model="todoList.itemTemp.qtd"
+                           ng-keydown="todoList.keyDownItemForm($event)">
                 </label>
             </div>
-            <!--botão invisível para ser possível submeter o form sem o click do botão no cabeçalho -->
-            <button style="display:none;" type="submit"></button>
         </div>
     </form>
   </div>

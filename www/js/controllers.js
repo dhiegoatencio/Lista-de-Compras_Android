@@ -85,10 +85,17 @@ angular.module('controllers', ['ionic'])
       });
     };
 
+    todoList.keyDownItemForm = function(event) {
+    	if (event.keyCode == 13)
+    		todoList.addItem(todoList.itemTemp, todoList.indexEditing);
+
+    	todoList.atualizaStatusItem(todoList.itemTemp.text)
+    };
+
     todoList.getDescricaoItem = function(data){
     	if (data.qtd) return data.qtd + " - " + data.text;
     	return data.text;
-    }
+    };
 
 	// A confirm dialog
 	todoList.confirmArchive = function() {
