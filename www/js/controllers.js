@@ -57,6 +57,7 @@ angular.module('controllers', ['ionic'])
 		  	data.text = '';
 		  	data.qtd = '';
 		    todoList.statusItem = "Salvo com sucesso!";
+	    	cordova.plugins.Keyboard.show();
 		} else {
 			todoList.$storage.todos.splice(idxItemEdited, 1, {
 				text: data.text,
@@ -65,7 +66,7 @@ angular.module('controllers', ['ionic'])
 			});
 			todoList.indexEditing = "";
 			todoList.closeModal()
-		}
+		};
 	};
 
 	todoList.removeItem = function (idx) {
