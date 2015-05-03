@@ -108,10 +108,12 @@
 
   <script id="modalAddItem.tpl" type="text/ng-template">
   <div class="modal">
-
     <div class="bar bar-header bar-calm">
         <button class="button" ng-click="todoList.closeModal()">Fechar</button>
         <h1 class="title">{{todoList.statusItem}}</h1>
+        <button class="button" ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
+          Salvar
+        </button>
     </div>
 
     <br></br>
@@ -120,7 +122,7 @@
         <div class="list">
             <div class="list list-inset">
                 <label class="item item-input">
-                    <span class="input-label">Descrição do item:</span>
+                    <span class="input-label">Item:</span>
                     <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
                            ng-model="todoList.itemTemp.text" ng-keydown="todoList.atualizaStatusItem(todoList.itemTemp.text)">
                 </label>
@@ -129,12 +131,10 @@
                     <input type="number" focus-on="qtd" ng-model="todoList.itemTemp.qtd">
                 </label>
             </div>
-            <button class="button button-block button-positive" type="submit">
-                Salvar
-            </button>
+            <!--botão invisível para ser possível submeter o form sem o click do botão no cabeçalho -->
+            <button style="display:none;" type="submit"></button>
         </div>
     </form>
-
   </div>
   </script>
 
