@@ -77,8 +77,7 @@
 
           <ion-item ng-repeat="item in todoList.$storage.todos"
                     item="item"
-                    ng-click="item.done = !item.done"
-                    class="done-background-color-{{item.done}} item">
+                    ng-click="item.done = !item.done">
 
               <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
               <span class="done-text-{{item.done}}">
@@ -116,7 +115,8 @@
     <div class="bar bar-header bar-calm">
         <button class="button" ng-click="todoList.closeModal()">Fechar</button>
         <h1 class="title">{{todoList.statusItem}}</h1>
-        <button class="button" ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
+        <button class="button"
+                ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
           Salvar
         </button>
     </div>
