@@ -26,3 +26,9 @@ LICENSE
 
 
 
+
+
+
+import com.startapp.android.publish.StartAppSDK;
+
+        //StartAppSDK.init(this, "104092713", "204487225", true); // ads  user ID , app ID
