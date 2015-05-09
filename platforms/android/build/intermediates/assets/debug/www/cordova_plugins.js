@@ -28,13 +28,6 @@ module.exports = [
         "clobbers": [
             "device"
         ]
-    },
-    {
-        "file": "plugins/com.google.cordova.admob/www/AdMob.js",
-        "id": "com.google.cordova.admob.AdMob",
-        "clobbers": [
-            "window.AdMob"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -44,10 +37,7 @@ module.exports.metadata =
     "cordova-plugin-inappbrowser": "1.0.1-dev",
     "io.litehelpers.cordova.sqlite": "0.7.8-dev",
     "org.apache.cordova.console": "0.2.13",
-    "org.apache.cordova.device": "0.3.0",
-    "com.google.cordova.admob": "2.7.5",
-    "com.rjfun.cordova.extension": "1.0.6",
-    "com.google.playservices": "19.0.0"
+    "org.apache.cordova.device": "0.3.0"
 }
 // BOTTOM OF METADATA
 });

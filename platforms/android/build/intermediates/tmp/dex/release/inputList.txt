@@ -1,6 +1,4 @@
 C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\classes\release
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\release\cordova-generic-ad-1504cc5fb3de883aa8acb6e43d9290040b132ab5.jar
 C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\release\classes-6fbad510c35f995673472648882b84e0ed17c102.jar
 C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\release\sqlite4java-8a2ae0f59b75054838350dfa73a0e82494dae93c.jar
 C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\release\StartAppInApp-2.4.15-857379a66c1be6354a097b068cfeb74267914f62.jar
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\release\google-play-services-b960c0a663b504fe584a4fef8a805cf35d9faefe.jar

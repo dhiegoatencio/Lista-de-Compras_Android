@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/PESSOAL/DEV/IONIC/starter/platforms/android/res/values/version.xml -->
-    <eat-comment/>
-    <integer name="google_play_services_version">5089000</integer>
     <!-- From: file:/C:/PESSOAL/DEV/IONIC/starter/platforms/android/res/values/strings.xml -->
     <eat-comment/>
     <string name="activity_name">@string/launcher_name</string>

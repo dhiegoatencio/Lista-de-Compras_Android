@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dhiegoatencio.listadecompra"
     android:hardwareAccelerated="true"
-    android:versionCode="101030"
-    android:versionName="1.1.3" >
+    android:versionCode="101040"
+    android:versionName="1.1.4" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -51,11 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
