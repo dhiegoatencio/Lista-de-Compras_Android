@@ -1,4 +1,0 @@
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\classes\debug
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\debug\classes-c8c5485651ce1562b5763ae9a2d1f4928a2bd6ad.jar
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\debug\sqlite4java-8a2ae0f59b75054838350dfa73a0e82494dae93c.jar
-C:\PESSOAL\DEV\IONIC\starter\platforms\android\build\intermediates\pre-dexed\debug\StartAppInApp-2.4.15-857379a66c1be6354a097b068cfeb74267914f62.jar
