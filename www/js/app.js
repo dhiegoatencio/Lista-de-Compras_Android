@@ -6,15 +6,16 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'controllers', 'ngStorage', 'ngCordova.plugins.googleAds'])
 
-  .run(function ($ionicPlatform, $cordovaGoogleAds) {
+  .run(function ($ionicPlatform, $window, $cordovaGoogleAds) {
   $ionicPlatform.ready(function () {
-    
-    if (window.AdMob) {
+    if ($window.AdMob) {
+
       $cordovaGoogleAds.prepareInterstitial({
-        adId: 'ca-app-pub-1630972949711874/1251380546'
-      }).then(function(){
+        adId: 'ca-app-pub-1630972949711874/1251380546',
+        autoShow: true,
+      }).then(function() {
         $cordovaGoogleAds.showInterstitial();
-      });
+      })
     }
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
