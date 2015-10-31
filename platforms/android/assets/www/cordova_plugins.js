@@ -28,6 +28,13 @@ module.exports = [
         "clobbers": [
             "device"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-admobpro/www/AdMob.js",
+        "id": "cordova-plugin-admobpro.AdMob",
+        "clobbers": [
+            "window.AdMob"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -37,7 +44,9 @@ module.exports.metadata =
     "cordova-plugin-inappbrowser": "1.0.1-dev",
     "io.litehelpers.cordova.sqlite": "0.7.8-dev",
     "org.apache.cordova.console": "0.2.13",
-    "org.apache.cordova.device": "0.3.0"
+    "org.apache.cordova.device": "0.3.0",
+    "cordova-plugin-admobpro": "2.9.8",
+    "cordova-plugin-extension": "1.2.1"
 }
 // BOTTOM OF METADATA
 });

@@ -1,3 +1,5 @@
+/* global cordova */
+/* global angular */
 angular.module('controllers', ['ionic'])
 .controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
 	                                        focus, $ionicModal) {
@@ -65,7 +67,7 @@ angular.module('controllers', ['ionic'])
 				done: data.done
 			});
 			todoList.indexEditing = "";
-			todoList.closeModal()
+			todoList.closeModal();
 		};
 	};
 
@@ -89,7 +91,7 @@ angular.module('controllers', ['ionic'])
     	if (event.keyCode == 13)
     		todoList.addItem(todoList.itemTemp, todoList.indexEditing);
 
-    	todoList.atualizaStatusItem(todoList.itemTemp.text)
+    	todoList.atualizaStatusItem(todoList.itemTemp.text);
     };
 
     todoList.getDescricaoItem = function(data){
@@ -106,7 +108,7 @@ angular.module('controllers', ['ionic'])
 	    		{ text: "Cancelar" },
 	    		{ text: '<b>Sim</b>',
 	    		  type: 'button-positive',
-	    		  onTap: function(e) {return "ok"}
+	    		  onTap: function(e) {return "ok";}
 	    		}
 	    	]
 	    });
@@ -148,5 +150,5 @@ angular.module('controllers', ['ionic'])
 	    $timeout(function() {
 	      	avaliePopup.close();
 	    }, 30000);
-	}
+	};
 });
