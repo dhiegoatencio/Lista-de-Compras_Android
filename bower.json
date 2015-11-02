@@ -1,7 +1,8 @@
 {
   "name": "Lista de Compras",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.5"
+  "devDependencies": {},
+  "dependencies": {
+    "angular-notify": "~2.5.0"
   }
 }

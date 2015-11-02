@@ -4,7 +4,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'controllers', 'ngStorage', 'ngCordova.plugins.googleAds'])
+angular.module('starter', ['ionic', 'controllers', 'ngStorage', 'ngCordova.plugins.googleAds', 'cgNotify'])
 
   .run(function ($ionicPlatform, $window, $cordovaGoogleAds) {
   $ionicPlatform.ready(function () {
@@ -13,8 +13,6 @@ angular.module('starter', ['ionic', 'controllers', 'ngStorage', 'ngCordova.plugi
       $cordovaGoogleAds.prepareInterstitial({
         adId: 'ca-app-pub-1630972949711874/1251380546',
         autoShow: true
-      /*}).then(function() {
-        $cordovaGoogleAds.showInterstitial();*/
       });
     }
 
@@ -43,7 +41,20 @@ angular.module('starter', ['ionic', 'controllers', 'ngStorage', 'ngCordova.plugi
       $rootScope.$broadcast('focusOn', name);
     });
   };
+})
+.service('notifyService', function(notify) {
+  notify.config({
+    duration: 2000,
+    startTop: 2,
+    maximumOpen: 3
+  });
+
+  return {
+    alert: notify
+  }
 });
+
+
 /*
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider

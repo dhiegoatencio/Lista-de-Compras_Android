@@ -2,7 +2,7 @@
 /* global angular */
 angular.module('controllers', ['ionic'])
 .controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
-	                                        focus, $ionicModal) {
+	                                        focus, $ionicModal, notifyService) {
 
     var todoList = this;
     todoList.$storage = $localStorage.$default({ todos: [] });
@@ -58,8 +58,11 @@ angular.module('controllers', ['ionic'])
 	      	focus('text');
 		  	data.text = '';
 		  	data.qtd = '';
-		    todoList.statusItem = "Salvo com sucesso!";
-	    	cordova.plugins.Keyboard.show();
+			notifyService.alert("Salvo com sucesso");
+		    //todoList.statusItem = "Salvo com sucesso!";
+			if (window.cordova) {
+				cordova.plugins.Keyboard.show();	
+			}
 		} else {
 			todoList.$storage.todos.splice(idxItemEdited, 1, {
 				text: data.text,
@@ -115,6 +118,7 @@ angular.module('controllers', ['ionic'])
 	    confirmPopup.then(function(res) {
 	    	if(res) {
 	     		todoList.archive();
+				notifyService.alert('Os produtos marcados foram removidos.')
 	     	} else {
 	       		console.log('You are not sure');
 	     	}
