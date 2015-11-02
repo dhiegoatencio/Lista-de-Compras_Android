@@ -61,7 +61,7 @@ angular.module('controllers', ['ionic'])
 			notifyService.alert("Salvo com sucesso");
 		    //todoList.statusItem = "Salvo com sucesso!";
 			if (window.cordova) {
-				cordova.plugins.Keyboard.show();	
+				cordova.plugins.Keyboard.show();
 			}
 		} else {
 			todoList.$storage.todos.splice(idxItemEdited, 1, {
