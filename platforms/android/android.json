@@ -1,0 +1,132 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"com.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.liteglue.SQLitePlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"com.rjfun.cordova.admob.AdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize\" android:name=\"com.google.android.gms.ads.AdActivity\" android:theme=\"@android:style/Theme.Translucent\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "io.litehelpers.cordova.sqlite": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "cordova-plugin-admobpro": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        },
+        "cordova-plugin-extension": {
+            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/com.ionic.keyboard/www/keyboard.js",
+            "id": "com.ionic.keyboard.keyboard",
+            "pluginId": "com.ionic.keyboard",
+            "clobbers": [
+                "cordova.plugins.Keyboard"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "pluginId": "cordova-plugin-inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
+        },
+        {
+            "file": "plugins/io.litehelpers.cordova.sqlite/www/SQLitePlugin.js",
+            "id": "io.litehelpers.cordova.sqlite.SQLitePlugin",
+            "pluginId": "io.litehelpers.cordova.sqlite",
+            "clobbers": [
+                "SQLitePlugin"
+            ]
+        },
+        {
+            "file": "plugins/org.apache.cordova.device/www/device.js",
+            "id": "org.apache.cordova.device.device",
+            "pluginId": "org.apache.cordova.device",
+            "clobbers": [
+                "device"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-admobpro/www/AdMob.js",
+            "id": "cordova-plugin-admobpro.AdMob",
+            "pluginId": "cordova-plugin-admobpro",
+            "clobbers": [
+                "window.AdMob"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "com.ionic.keyboard": "1.0.4",
+        "cordova-plugin-inappbrowser": "1.0.1-dev",
+        "io.litehelpers.cordova.sqlite": "0.7.8-dev",
+        "org.apache.cordova.console": "0.2.13",
+        "org.apache.cordova.device": "0.3.0",
+        "cordova-plugin-admobpro": "2.9.8",
+        "cordova-plugin-extension": "1.2.1"
+    }
+}

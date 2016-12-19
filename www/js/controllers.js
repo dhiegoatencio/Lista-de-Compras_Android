@@ -4,11 +4,11 @@ angular.module('controllers', ['ionic'])
 .controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
 	                                        focus, $ionicModal, notifyService) {
 
-    var todoList = this;
-    todoList.$storage = $localStorage.$default({ todos: [] });
+    var ctrl = this;
+    ctrl.$storage = $localStorage.$default({ todos: [] });
 
-    todoList.itemTemp = {};
-    todoList.indexEditing = {};
+    ctrl.itemTemp = {};
+    ctrl.indexEditing = {};
 
 	//init the modal
 	$ionicModal.fromTemplateUrl('modalAddItem.tpl', {
@@ -16,41 +16,59 @@ angular.module('controllers', ['ionic'])
 		animation: 'slide-in-up',
 		focusFirstInput: true
 	}).then(function (modal) {
-	  	todoList.modal = modal;
+	  	ctrl.modal = modal;
+	});
+
+	$ionicModal.fromTemplateUrl('modalArquivados.tpl', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function (modal) {
+		ctrl.modalArquivados = modal;
 	});
 
 	// function to close the modal
-	todoList.closeModal = function () {
-		todoList.modal.hide();
-        todoList.indexEditing = "";
-        todoList.itemTemp     = "";
+	ctrl.closeModal = function () {
+		ctrl.modal.hide();
+        ctrl.indexEditing = "";
+        ctrl.itemTemp     = "";
 	};
 
 	// function to open the modal
-	todoList.openModal = function () {
-		todoList.indexEditing = "";
-		todoList.statusItem = "";
-		todoList.modal.show();
+	ctrl.openModal = function () {
+		ctrl.indexEditing = "";
+		ctrl.statusItem = "";
+		ctrl.modal.show();
 		focus('text');
 	};
 
-	todoList.editItem = function(item, index){
-		todoList.indexEditing = index;
-		todoList.itemTemp     = {text: item.text, qtd: item.qtd, done: item.done};
-		todoList.statusItem = "";
-		todoList.modal.show();
+	ctrl.openArquivados = function () {
+		ctrl.modalArquivados.show();
+	};
+
+	ctrl.closeArquivados = function () {
+		ctrl.modalArquivados.hide();
+	};
+
+	ctrl.editItem = function(item, index){
+		ctrl.indexEditing = index;
+		ctrl.itemTemp     = {text: item.text, qtd: item.qtd, done: item.done};
+		ctrl.statusItem = "";
+		ctrl.modal.show();
 	};
 
 	//Cleanup the modal when we're done with it!
-	$scope.$on('$destroy', function () { todoList.modal.remove(); });
+	$scope.$on('$destroy', function () {
+		ctrl.modal.remove();
+		ctrl.modalArquivados.remove();
+	});
 
 	//function to add items to the existing list
-	todoList.addItem = function (data, idxItemEdited) {
+	ctrl.addItem = function (data, idxItemEdited) {
 		if (!data) return;
 		if (!data.text) return;
 
 		if (!idxItemEdited) {
-	        todoList.$storage.todos.push({
+	        ctrl.$storage.todos.push({
 		      	text:data.text,
 		      	qtd: data.qtd,
 		      	done:false
@@ -59,51 +77,51 @@ angular.module('controllers', ['ionic'])
 		  	data.text = '';
 		  	data.qtd = '';
 			notifyService.alert("Salvo com sucesso");
-		    //todoList.statusItem = "Salvo com sucesso!";
+		    //ctrl.statusItem = "Salvo com sucesso!";
 			if (window.cordova) {
 				cordova.plugins.Keyboard.show();
 			}
 		} else {
-			todoList.$storage.todos.splice(idxItemEdited, 1, {
+			ctrl.$storage.todos.splice(idxItemEdited, 1, {
 				text: data.text,
 				qtd: data.qtd,
 				done: data.done
 			});
-			todoList.indexEditing = "";
-			todoList.closeModal();
+			ctrl.indexEditing = "";
+			ctrl.closeModal();
 		};
 	};
 
-	todoList.removeItem = function (idx) {
-		todoList.$storage.todos.splice(idx, 1);
+	ctrl.removeItem = function (idx) {
+		ctrl.$storage.todos.splice(idx, 1);
 	};
 
-	todoList.atualizaStatusItem = function(text) {
-		if (text) todoList.statusItem = "";
+	ctrl.atualizaStatusItem = function(text) {
+		if (text) ctrl.statusItem = "";
 	};
 
-    todoList.archive = function() {
-      var oldTodos = todoList.$storage.todos;
-      todoList.$storage.todos = [];
+    ctrl.archive = function() {
+      var oldTodos = ctrl.$storage.todos;
+      ctrl.$storage.todos = [];
       angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) todoList.$storage.todos.push(todo);
+        if (!todo.done) ctrl.$storage.todos.push(todo);
       });
     };
 
-    todoList.keyDownItemForm = function(event) {
+    ctrl.keyDownItemForm = function(event) {
     	if (event.keyCode == 13)
-    		todoList.addItem(todoList.itemTemp, todoList.indexEditing);
+    		ctrl.addItem(ctrl.itemTemp, ctrl.indexEditing);
 
-    	todoList.atualizaStatusItem(todoList.itemTemp.text);
+    	ctrl.atualizaStatusItem(ctrl.itemTemp.text);
     };
 
-    todoList.getDescricaoItem = function(data){
+    ctrl.getDescricaoItem = function(data){
     	if (data.qtd) return data.qtd + " - " + data.text;
     	return data.text;
     };
 
 	// A confirm dialog
-	todoList.confirmArchive = function() {
+	ctrl.confirmArchive = function() {
 	    var confirmPopup = $ionicPopup.confirm({
 	    	title: 'Arquivar',
 	    	template: 'Tem certeza que deseja arquivar os itens marcados?',
@@ -117,7 +135,7 @@ angular.module('controllers', ['ionic'])
 	    });
 	    confirmPopup.then(function(res) {
 	    	if(res) {
-	     		todoList.archive();
+	     		ctrl.archive();
 				notifyService.alert('Os produtos marcados foram removidos.')
 	     	} else {
 	       		console.log('You are not sure');
@@ -128,7 +146,7 @@ angular.module('controllers', ['ionic'])
 	    }, 7000);
 	};
 
-	todoList.help = function() {
+	ctrl.help = function() {
 	    var helpPopup = $ionicPopup.show({
 	    	title: 'Ajuda',
 	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar itens já comprados.' +
@@ -142,7 +160,7 @@ angular.module('controllers', ['ionic'])
 	    }, 15000);
 	};
 
-	todoList.rate = function() {
+	ctrl.rate = function() {
 	    var avaliePopup = $ionicPopup.show({
 	    	title: 'Avalie',
 	    	template: 'Obrigado por avaliar o app na play store.' ,

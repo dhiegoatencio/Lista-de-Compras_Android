@@ -106,6 +106,9 @@
         <a class="tab-item" ng-click="todoList.confirmArchive()">
             <i class="icon ion-trash-b"></i>Arquivar
         </a>
+        <a class="tab-item" ng-click="todoList.openArquivados()">
+            <i class="icon ion-trash-b"></i>Arquivados
+        </a>
         <a class="tab-item" href="https://play.google.com/store/apps/details?id=com.dongames.getnumbers">
             <i class="icon ion-social-android"></i>Jogo
         </a>
@@ -114,38 +117,63 @@
    
 
   <script id="modalAddItem.tpl" type="text/ng-template">
-  <div class="modal">
-    <div class="bar bar-header bar-calm">
-        <button class="button"
-                ng-click="todoList.closeModal()">Fechar</button>
-        <h1 class="title">{{todoList.statusItem}}</h1>
-        <button class="button"
-                ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
-          Salvar
-        </button>
-    </div>
-
-    <br></br>
-
-    <form ng-submit="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
-        <div class="list">
-            <div class="list list-inset">
-                <label class="item item-input">
-                    <span class="input-label">Item:</span>
-                    <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
-                           ng-model="todoList.itemTemp.text"
-                           ng-keydown="todoList.keyDownItemForm($event)">
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Quantidade:</span>
-                    <input type="number" focus-on="qtd"
-                           ng-model="todoList.itemTemp.qtd"
-                           ng-keydown="todoList.keyDownItemForm($event)">
-                </label>
-            </div>
+    <div class="modal">
+        <div class="bar bar-header bar-calm">
+            <button class="button"
+                    ng-click="todoList.closeModal()">Fechar</button>
+            <h1 class="title">{{todoList.statusItem}}</h1>
+            <button class="button"
+                    ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
+            Salvar
+            </button>
         </div>
-    </form>
-  </div>
+
+        <br></br>
+
+        <form ng-submit="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
+            <div class="list">
+                <div class="list list-inset">
+                    <label class="item item-input">
+                        <span class="input-label">Item:</span>
+                        <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
+                            ng-model="todoList.itemTemp.text"
+                            ng-keydown="todoList.keyDownItemForm($event)">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Quantidade:</span>
+                        <input type="number" focus-on="qtd"
+                            ng-model="todoList.itemTemp.qtd"
+                            ng-keydown="todoList.keyDownItemForm($event)">
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+  </script>
+
+
+  <script id="modalArquivados.tpl" type="text/ng-template">
+      <div class="modal">
+        <div class="bar bar-header bar-calm">
+            <button class="button"
+                    ng-click="todoList.closeArquivados()">Fechar</button>
+            <h1 class="title">Arquivados</h1>
+        </div>
+
+
+        <ion-content has-header="true">
+            <br><br>
+            <ion-list>
+                <ion-item>
+                    <span>aaa</span>
+                    <ion-option-button class="button-assertive">
+                        Excluir
+                    </ion-option-button>
+                </ion-item>
+            </ion-list>
+            <br></br>
+        </ion-content>
+    </div>
   </script>
 
 </body>
