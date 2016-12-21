@@ -26,6 +26,7 @@
    <!-- your app's js -->
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/repository.js"></script>
   <script>
       function isUrl(s) {
           var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
@@ -43,7 +44,7 @@
       };
   </script>
 </head>
-<body ng-app="starter" onload="onLoad()" onresize="onResize()"
+<body ng-app="app" onload="onLoad()" onresize="onResize()"
       ng-controller="TodoListController as todoList"
       style="background-color:#444444">
 <ion-pane>
@@ -69,16 +70,16 @@
           </label>
         -->
       <ion-list can-swipe="true">
-          <ion-item ng-if="todoList.$storage.todos.length == 0">
+          <ion-item ng-if="todoList.lista.items.length == 0">
               Adicione item com o <i class="icon ion-plus-round"></i> do rodapé.
           </ion-item>
-          <ion-item ng-if="todoList.$storage.todos.length == 0">
+          <ion-item ng-if="todoList.lista.items.length == 0">
               Me arraste para << e veja opções.
               <ion-option-button class="button-positive">Exemplo</ion-option-button>
               <ion-option-button class="button-assertive">Exemplo</ion-option-button>
           </ion-item>
 
-          <ion-item ng-repeat="item in todoList.$storage.todos"
+          <ion-item ng-repeat="item in todoList.lista.items"
                     item="item"
                     ng-click="item.done = !item.done">
 
@@ -164,8 +165,8 @@
         <ion-content has-header="true">
             <br><br>
             <ion-list>
-                <ion-item>
-                    <span>aaa</span>
+                <ion-item ng-repeat="list in todoList.listas" ng-click="todoList.selectList(list)">
+                    <span>{{(list.archived | date) || 'Atual'}}</span>
                     <ion-option-button class="button-assertive">
                         Excluir
                     </ion-option-button>

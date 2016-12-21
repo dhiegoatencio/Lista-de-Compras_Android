@@ -2,13 +2,17 @@
 /* global angular */
 angular.module('controllers', ['ionic'])
 .controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
-	                                        focus, $ionicModal, notifyService) {
+	                                        focus, $ionicModal, notifyService, repository) {
 
     var ctrl = this;
-    ctrl.$storage = $localStorage.$default({ todos: [] });
+    //ctrl.$storage = $localStorage.$default({ todos: [] });
+	ctrl.lista = repository.getSelectedList();
+	ctrl.listas = repository.getLists();
 
     ctrl.itemTemp = {};
     ctrl.indexEditing = {};
+
+	ctrl.removeItem = repository.removeItemByIndex;
 
 	//init the modal
 	$ionicModal.fromTemplateUrl('modalAddItem.tpl', {
@@ -41,6 +45,11 @@ angular.module('controllers', ['ionic'])
 		focus('text');
 	};
 
+	ctrl.selectList = function (list) {
+		ctrl.lista = repository.selectList(list);
+		ctrl.closeArquivados();
+	}
+
 	ctrl.openArquivados = function () {
 		ctrl.modalArquivados.show();
 	};
@@ -67,22 +76,21 @@ angular.module('controllers', ['ionic'])
 		if (!data) return;
 		if (!data.text) return;
 
-		if (!idxItemEdited) {
-	        ctrl.$storage.todos.push({
-		      	text:data.text,
-		      	qtd: data.qtd,
-		      	done:false
-	      	});
+		if (angular.isUndefined(idxItemEdited) || idxItemEdited === '') {
+			repository.addItem({
+				text: data.text,
+				qtd: data.qtd
+			});
 	      	focus('text');
 		  	data.text = '';
 		  	data.qtd = '';
 			notifyService.alert("Salvo com sucesso");
-		    //ctrl.statusItem = "Salvo com sucesso!";
+
 			if (window.cordova) {
 				cordova.plugins.Keyboard.show();
 			}
 		} else {
-			ctrl.$storage.todos.splice(idxItemEdited, 1, {
+			repository.updateItemByIndex(idxItemEdited, {
 				text: data.text,
 				qtd: data.qtd,
 				done: data.done
@@ -92,20 +100,18 @@ angular.module('controllers', ['ionic'])
 		};
 	};
 
-	ctrl.removeItem = function (idx) {
-		ctrl.$storage.todos.splice(idx, 1);
-	};
-
 	ctrl.atualizaStatusItem = function(text) {
 		if (text) ctrl.statusItem = "";
 	};
 
     ctrl.archive = function() {
+		
+		/*
       var oldTodos = ctrl.$storage.todos;
       ctrl.$storage.todos = [];
       angular.forEach(oldTodos, function(todo) {
         if (!todo.done) ctrl.$storage.todos.push(todo);
-      });
+      });*/
     };
 
     ctrl.keyDownItemForm = function(event) {
@@ -122,6 +128,8 @@ angular.module('controllers', ['ionic'])
 
 	// A confirm dialog
 	ctrl.confirmArchive = function() {
+		ctrl.lista = repository.archiveList();
+		/*
 	    var confirmPopup = $ionicPopup.confirm({
 	    	title: 'Arquivar',
 	    	template: 'Tem certeza que deseja arquivar os itens marcados?',
@@ -143,7 +151,7 @@ angular.module('controllers', ['ionic'])
 	    });
 	    $timeout(function() {
 	      	confirmPopup.close(); //close the popup after 7 seconds for some reason
-	    }, 7000);
+	    }, 7000);*/
 	};
 
 	ctrl.help = function() {
