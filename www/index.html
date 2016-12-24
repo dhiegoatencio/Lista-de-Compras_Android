@@ -52,8 +52,8 @@
     <ion-header-bar class="bar bar-header">
         <h1 class="title">Lista de Compras</h1>       
         <div class="bar bar-header bar-dark">
-            <a class="button button-icon icon icon-left ion-heart"
-               href="https://play.google.com/store/search?q=maiconsoft&c=apps"
+            <a class="rate-icon button button-icon icon icon-left ion-heart"
+               href="https://play.google.com/store/apps/details?id=com.dhiegoatencio.listadecompra"
                ng-click="todoList.rate()"></a>
             <h1 class="title" ng-bind="todoList.getListTitle(todoList.listas, todoList.lista)"></h1>
             <a ng-click="todoList.help()"
@@ -84,16 +84,15 @@
                     ng-click="item.done = !item.done">
 
               <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
-              <span class="done-text-{{item.done}}">
-                  {{todoList.getDescricaoItem(item)}}
+              <span>
+                  <span class="done-text-{{item.done}}">{{todoList.getDescricaoItem(item)}}</span>
+                  <span class="icon-item-options ion-ios-arrow-left"></span>
               </span>
-              <ion-option-button class="button-positive"
+              <ion-option-button class="ion-edit button-positive"
                                  ng-click="todoList.editItem(item, $index)">
-                  Editar
               </ion-option-button>
-              <ion-option-button class="button-assertive"
+              <ion-option-button class="ion-trash-a button-assertive"
                                  ng-click="todoList.removeItem($index)">
-                  Excluir
               </ion-option-button>
 
           </ion-item>
@@ -102,16 +101,16 @@
 
     <ion-footer-bar class="tabs tabs-icon-left tabs-dark">
         <a class="tab-item" ng-click="todoList.openModal()">
-            <i class="icon ion-plus-round"></i>Adicionar
+            <i class="icon ion-plus-round"></i>
         </a>
         <a class="tab-item" ng-click="todoList.confirmArchive()">
-            <i class="icon ion-trash-b"></i>Arquivar
+            <i class="icon ion-archive"></i>Arquivar
         </a>
         <a class="tab-item" ng-click="todoList.openArquivados()">
-            <i class="icon ion-trash-b"></i>Arquivados
+            <i class="icon ion-ios-filing"></i>Arquivados
         </a>
         <a class="tab-item" href="https://play.google.com/store/apps/details?id=com.dongames.getnumbers">
-            <i class="icon ion-social-android"></i>Jogo
+            <i class="icon ion-social-android"></i>
         </a>
     </ion-footer-bar>
 </ion-pane>
@@ -120,13 +119,12 @@
   <script id="modalAddItem.tpl" type="text/ng-template">
     <div class="modal">
         <div class="bar bar-header bar-calm">
-            <button class="button"
-                    ng-click="todoList.closeModal()">Fechar</button>
+            <button class="button ion-close"
+                    ng-click="todoList.closeModal()">  Fechar</button>
             <h1 class="title">{{todoList.statusItem}}</h1>
-            <button class="button"
-                    ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
-            Salvar
-            </button>
+
+            <button ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)"
+                class="button ion-plus-round">  Salvar</button>
         </div>
 
         <br></br>
@@ -166,10 +164,16 @@
             <br><br>
             <ion-list>
                 <ion-item ng-repeat="list in todoList.listas" ng-click="todoList.selectList(list)">
-                    <span>{{(list.archived | date: todoList.dateFormat) || 'Atual'}}</span>
-                    <ion-option-button ng-if="todoList.listas.indexOf(list)" ng-click="todoList.removeArchived(list)" class="button-assertive">
-                        Excluir
-                    </ion-option-button>
+                    <span>
+                        <span>{{list.title || (list.archived | date: todoList.dateFormat) || 'Atual'}}</span>
+                        <span ng-if="todoList.isFirstList(list)" class="icon-item-options ion-ios-arrow-left"></span>
+                    </span>
+                    <div ng-if="todoList.isFirstList(list)">
+                        <ion-option-button class="button-positive ion-edit" ng-click="todoList.renameList(list)">
+                        </ion-option-button>
+                        <ion-option-button ng-click="todoList.removeArchived(list)" class="ion-trash-a button-assertive">
+                        </ion-option-button>
+                    </div>
                 </ion-item>
             </ion-list>
             <br></br>

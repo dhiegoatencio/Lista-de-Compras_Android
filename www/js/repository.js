@@ -47,8 +47,18 @@
             currentList.items.splice(index, 1);
         }
 
+        function _deselectAll(list) {
+            var i,
+                items = list.items;
+            for (i = 0; i < items.length; i++) {
+                delete items[i].done;
+            }
+        }
+
         function archiveList() {
             var newList;
+
+            _deselectAll(currentList);
 
             if (currentList.archived) {
                 return $q.when(_setSelected());

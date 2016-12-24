@@ -110,16 +110,6 @@ angular.module('controllers', ['ionic'])
 		if (text) ctrl.statusItem = "";
 	};
 
-    ctrl.archive = function() {
-		
-		/*
-      var oldTodos = ctrl.$storage.todos;
-      ctrl.$storage.todos = [];
-      angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) ctrl.$storage.todos.push(todo);
-      });*/
-    };
-
     ctrl.keyDownItemForm = function(event) {
     	if (event.keyCode == 13)
     		ctrl.addItem(ctrl.itemTemp, ctrl.indexEditing);
@@ -161,8 +151,9 @@ angular.module('controllers', ['ionic'])
 	ctrl.help = function() {
 	    var helpPopup = $ionicPopup.show({
 	    	title: 'Ajuda',
-	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar itens já comprados.' +
+	    	template: 'Utilize os botões da parte de baixo da tela para inserir ou arquivar a lista de compra.' +
 	    			  '<br><br>Deslize o dedo para a esquerda para exibir as opções do item.' +
+					  '<br><br>Muito obrigado pelas avaliações :)' +
 	    	          '<br><hr>Desenvolvedor: <a href="https://br.linkedin.com/pub/dhiego-hendrix-atencio/29/ba0/2bb">Dhiego Hendrix</a>' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 	    });
@@ -172,17 +163,41 @@ angular.module('controllers', ['ionic'])
 	    }, 15000);
 	};
 
+	ctrl.renameList = function (list) {
+		$scope.data = {newListName: list.title};
+		var renamePopup =  $ionicPopup.show({
+	    	title: 'Renomear Lista',
+	    	template: '<input ng-model="data.newListName"></input>' ,
+			scope: $scope,
+	    	buttons: [
+				{ text: 'Cancel' },
+				{
+					text: "Salvar",
+					type: 'button-positive',
+					onTap: function (e) {
+						return $scope.data.newListName;
+					}
+				}
+			]
+
+	    }).then(function(res) {
+			list.title = res || list.title;
+			return false;
+	    });
+	};
+
+	ctrl.isFirstList = function (list) {
+		return !!ctrl.listas.indexOf(list);
+	};
+
 	ctrl.rate = function() {
 	    var avaliePopup = $ionicPopup.show({
 	    	title: 'Avalie',
-	    	template: 'Obrigado por avaliar o app na play store.' ,
+	    	template: 'Obrigado por avaliar nosso. São coisas assim que fazem a humanidade melhorar :)' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 
 	    }).then(function(res) {
 			return false;
 	    });
-	    $timeout(function() {
-	      	avaliePopup.close();
-	    }, 30000);
 	};
 });
