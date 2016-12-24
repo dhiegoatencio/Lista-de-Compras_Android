@@ -85,7 +85,7 @@
 
               <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
               <span>
-                  <span class="done-text-{{item.done}}">{{todoList.getDescricaoItem(item)}}</span>
+                  <span class="done-text-{{item.done}}" ng-bind="todoList.getDescricaoItem(item)"></span>
                   <span class="icon-item-options ion-ios-arrow-left"></span>
               </span>
               <ion-option-button class="ion-edit button-positive"

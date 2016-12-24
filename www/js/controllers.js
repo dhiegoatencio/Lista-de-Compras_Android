@@ -193,7 +193,7 @@ angular.module('controllers', ['ionic'])
 	ctrl.rate = function() {
 	    var avaliePopup = $ionicPopup.show({
 	    	title: 'Avalie',
-	    	template: 'Obrigado por avaliar nosso. São coisas assim que fazem a humanidade melhorar :)' ,
+	    	template: 'Obrigado por avaliar nosso app.<br>São coisas assim que fazem a humanidade melhorar :)' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
 
 	    }).then(function(res) {

@@ -1,4 +1,3 @@
-/* Empty. Add your own CSS if you like */
 .done-background-color-true {
   background-color: #D8E8F2;
 }
@@ -7,3 +6,15 @@
   color: grey;
   text-decoration: line-through;
 }
+
+.icon-item-options {
+  float: right;
+  margin-right: -38px;
+}
+.rate-icon {
+  color: #ff7575 !important;
+}
+/*
+.item-content {
+  background-color: #fafdff !important;
+}*/
