@@ -1,8 +1,8 @@
 (function (angular) {
     'use strict';
-    var inject = ['$filter', '$localStorage'];
+    var inject = ['$q', '$filter', '$localStorage'];
 
-    function RepositoryFactory($filter, $localStorage) {
+    function RepositoryFactory($q, $filter, $localStorage) {
         var store = $localStorage.$default({
             lists: [{items: [], selected: true}]
         }),
@@ -20,7 +20,7 @@
         }
 
         function _setSelected(listToSelect) {
-            currentList = listToSelect;
+            currentList = listToSelect || store.lists[0];
             currentList.selected = true;
             return currentList;
         }
@@ -51,21 +51,39 @@
             var newList;
 
             if (currentList.archived) {
-                return _setSelected(store.lists[0]);
+                return $q.when(_setSelected());
+            }
+
+            if (store.lists.length >= 10) {
+                return $q.reject('Somente 10 listas são permitidas. Por favor, exclua uma lista não utilizada antes de arquivar a atual');
             }
 
             currentList.archived = new Date();
             currentList.selected = false;
 
             newList = _setSelected({items: []})
-
             store.lists.unshift(newList);
-            return newList;
+
+            return $q.when(newList);
         }
 
         function selectList(list) {
             currentList.selected = false;
             return _setSelected(list)
+        }
+
+        function removeArchived(listToRemove) {
+            var index = store.lists.indexOf(listToRemove),
+                toSelect;
+
+            if (currentList === listToRemove) {
+                toSelect = _setSelected(); //get the first list
+            } else {
+                toSelect = currentList;
+            }
+
+            store.lists.splice(index, 1);
+            return $q.when(toSelect);
         }
 
         function getLists() {
@@ -80,6 +98,7 @@
             updateItemByIndex: updateItemByIndex,
             removeItemByIndex: removeItemByIndex,
             archiveList: archiveList,
+            removeArchived: removeArchived,
             selectList: selectList
         };
     }

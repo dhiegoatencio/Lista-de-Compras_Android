@@ -1,13 +1,12 @@
-/* global cordova */
-/* global angular */
+/* global cordova, angular */
 angular.module('controllers', ['ionic'])
-.controller('TodoListController', function ($scope, $ionicPopup, $timeout, $localStorage,
+.controller('TodoListController', function ($filter, $scope, $ionicPopup, $timeout, $localStorage,
 	                                        focus, $ionicModal, notifyService, repository) {
 
     var ctrl = this;
-    //ctrl.$storage = $localStorage.$default({ todos: [] });
 	ctrl.lista = repository.getSelectedList();
 	ctrl.listas = repository.getLists();
+	ctrl.dateFormat = 'dd/MMM/yyyy HH:mm:ss';
 
     ctrl.itemTemp = {};
     ctrl.indexEditing = {};
@@ -71,6 +70,13 @@ angular.module('controllers', ['ionic'])
 		ctrl.modalArquivados.remove();
 	});
 
+	ctrl.getListTitle = function (list, selected) {
+		if (list.indexOf(selected)) {
+			return selected.title || $filter('date')(selected.archived, ctrl.dateFormat);
+		}
+		return "Lista de Compras Simplificada";
+	};
+
 	//function to add items to the existing list
 	ctrl.addItem = function (data, idxItemEdited) {
 		if (!data) return;
@@ -128,30 +134,28 @@ angular.module('controllers', ['ionic'])
 
 	// A confirm dialog
 	ctrl.confirmArchive = function() {
-		ctrl.lista = repository.archiveList();
-		/*
-	    var confirmPopup = $ionicPopup.confirm({
-	    	title: 'Arquivar',
-	    	template: 'Tem certeza que deseja arquivar os itens marcados?',
-	    	buttons: [
-	    		{ text: "Cancelar" },
-	    		{ text: '<b>Sim</b>',
-	    		  type: 'button-positive',
-	    		  onTap: function(e) {return "ok";}
-	    		}
-	    	]
-	    });
-	    confirmPopup.then(function(res) {
-	    	if(res) {
-	     		ctrl.archive();
-				notifyService.alert('Os produtos marcados foram removidos.')
-	     	} else {
-	       		console.log('You are not sure');
-	     	}
-	    });
-	    $timeout(function() {
-	      	confirmPopup.close(); //close the popup after 7 seconds for some reason
-	    }, 7000);*/
+		repository.archiveList().then(function (list) {
+			ctrl.lista = list;
+			notifyService.alert('Arquivado com sucesso');
+		}).catch(function (error) {
+			var errPopup = $ionicPopup.show({
+				title: 'Aviso',
+				template: error,
+				buttons: [{ text: '<b>Ok</b>' }]
+			});
+
+			$timeout(function() {
+				errPopup.close();
+			}, 15000);
+		});
+	};
+
+	ctrl.removeArchived = function (list) {
+		repository.removeArchived(list)
+			.then(function (selectedList) {
+				notifyService.alert("Lista Removida com sucesso");
+				ctrl.lista = selectedList;
+			});
 	};
 
 	ctrl.help = function() {
@@ -173,8 +177,8 @@ angular.module('controllers', ['ionic'])
 	    	title: 'Avalie',
 	    	template: 'Obrigado por avaliar o app na play store.' ,
 	    	buttons: [{ text: '<b>Ok</b>' }]
-	    });
-		avaliePopup.then(function(res) {
+
+	    }).then(function(res) {
 			return false;
 	    });
 	    $timeout(function() {

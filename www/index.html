@@ -55,7 +55,7 @@
             <a class="button button-icon icon icon-left ion-heart"
                href="https://play.google.com/store/search?q=maiconsoft&c=apps"
                ng-click="todoList.rate()"></a>
-            <h1 class="title">Lista de Compras</h1>
+            <h1 class="title" ng-bind="todoList.getListTitle(todoList.listas, todoList.lista)"></h1>
             <a ng-click="todoList.help()"
                class="button button-icon icon icon-right ion-help"></a>
         </div>
@@ -166,8 +166,8 @@
             <br><br>
             <ion-list>
                 <ion-item ng-repeat="list in todoList.listas" ng-click="todoList.selectList(list)">
-                    <span>{{(list.archived | date) || 'Atual'}}</span>
-                    <ion-option-button class="button-assertive">
+                    <span>{{(list.archived | date: todoList.dateFormat) || 'Atual'}}</span>
+                    <ion-option-button ng-if="todoList.listas.indexOf(list)" ng-click="todoList.removeArchived(list)" class="button-assertive">
                         Excluir
                     </ion-option-button>
                 </ion-item>
