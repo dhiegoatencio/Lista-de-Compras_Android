@@ -13,10 +13,11 @@ Cordova / PhoneGap Plugin for Google Ads, including AdMob / DFP (doubleclick for
 7. [Usage](#usage)
 8. [API](#api)
 9. [Wiki and Docs](#wiki-and-docs)
-10. [Important Tips](#tips)
+10. [Important Tips & Warning](#tips)
 11. [Video Tutorial](#video-tutorial)
 12. [Screenshots](#screenshots)
-13. [Credits](#credits)
+13. [License](#license)
+14. [Credits](#credits)
 
 ## Description
 
@@ -35,14 +36,15 @@ From May 2015, Cordova team announced the deprecation of Cordova registry, and s
 ## Features
 
 Platforms supported:
-- [x] Android, via SDK v7.8 (part of Google Play service platform)
-- [x] iOS, via SDK v7.4.1
-- [x] Windows Phone, via SDK v6.5.13
-- [x] Amazon-FireOS, via Android SDK (part of Google Play service platform)
+- [x] Android, via SDK v10.0.1 (part of Google Play service, see [Release Notes](https://developers.google.com/admob/android/rel-notes))
+- [x] iOS, via SDK v7.15.0 (with bitcode support, see [Release Notes](https://developers.google.com/admob/ios/rel-notes))
+- [x] Windows Phone, via SDK v6.5.13 (see [Release Notes](https://developers.google.com/admob/wp/rel-notes))
+- [x] Amazon-FireOS, via Android SDK (part of Google Play service)
 
 Ad Types:
 - [x] Banner
 - [x] Interstitial (text, picture, video)
+- [x] Reward Video
 - [x] IAP Ad
 - [x] Native Ad (Google new product, on roadmap)
 
@@ -135,33 +137,33 @@ Step 1: Create Ad Unit Id for your banner and interstitial, in [AdMob portal](ht
 
 ```javascript
 // select the right Ad Id according to platform
-    var admobid = {};
-    if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
-		admobid = {
-			banner: 'ca-app-pub-xxx/xxx', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-xxx/yyy'
-        };
-    } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
-		admobid = {
-			banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-xxx/kkk'
-		};
-    } else { // for windows phone
-		admobid = {
-			banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-xxx/kkk'
-		};
-    }
+  var admobid = {};
+  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
+    admobid = {
+      banner: 'ca-app-pub-xxx/xxx', // or DFP format "/6253334/dfp_example_ad"
+      interstitial: 'ca-app-pub-xxx/yyy'
+    };
+  } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+    admobid = {
+      banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
+      interstitial: 'ca-app-pub-xxx/kkk'
+    };
+  } else { // for windows phone
+    admobid = {
+      banner: 'ca-app-pub-xxx/zzz', // or DFP format "/6253334/dfp_example_ad"
+      interstitial: 'ca-app-pub-xxx/kkk'
+    };
+  }
 ```
 
 Step 2: Want cheap and basic banner? single line of javascript code.
 
 ```javascript
 // it will display smart banner at top center, using the default options
-if(AdMob) AdMob.createBanner( {
-	adId: admobid.banner, 
-	position: AdMob.AD_POSITION.TOP_CENTER, 
-	autoShow: true } );
+if(AdMob) AdMob.createBanner({
+  adId: admobid.banner,
+  position: AdMob.AD_POSITION.TOP_CENTER,
+  autoShow: true });
 ```
 
 Step 3: Want interstitial Ad to earn more money ? Easy, 2 lines of code. 
@@ -174,7 +176,12 @@ if(AdMob) AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false}
 if(AdMob) AdMob.showInterstitial();
 ```
 
-Or, you can just copy this [admob_simple.js](https://github.com/floatinghotpot/cordova-admob-pro/blob/master/test/admob_simple.js) to your project, and ref in your index.html.
+Or, you can just copy this [admob_simple.js](https://github.com/floatinghotpot/cordova-admob-pro/blob/master/test/admob_simple.js) to your project, change the ad unit id to your own, and simply reference it in your index.html, like this:
+```html
+<script type="text/javascript" src="admob_simple.js"></script>
+```
+
+Remember to remove `isTesting:true` if release for production.
 
 ## AdMob Mediation Adapters ##
 
@@ -204,9 +211,17 @@ hideBanner();
 // use interstitial
 prepareInterstitial(adId/options, success, fail);
 showInterstitial();
+isInterstitialReady(function(ready){ if(ready){ } });
 
-// set default value for other methods
+// use reward video
+prepareRewardVideoAd(adId/options, success, fail);
+showRewardVideoAd();
+
+// set values for configuration and targeting
 setOptions(options, success, fail);
+
+// get user ad settings
+getAdSettings(function(inf){ inf.adId; inf.adTrackingEnabled; }, fail);
 ```
 
 Events:
@@ -236,6 +251,7 @@ API Reference:
 
 Other Documentations:
 * [ChangeLog](https://github.com/floatinghotpot/cordova-admob-pro/wiki/ChangeLog)
+* [Known issues & solutions/workarounds](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Known-Issues-&-Solution---Workaround)
 * [FAQ](https://github.com/floatinghotpot/cordova-admob-pro/wiki/FAQ)
 * [Notice for Android Proguard](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Notice-for-Android-Proguard)
 
@@ -243,30 +259,6 @@ Demo projects:
 * [App demo using Ionic framework](https://github.com/floatinghotpot/admob-demo-app-ionic/tree/master/demo)
 * [Game demo using phaser game engine](https://github.com/floatinghotpot/admob-demo-game-phaser/tree/master/demo)
 * [Game demo using PIXI game engine](https://github.com/floatinghotpot/admob-demo-game-pixi/tree/master/demo)
-
-## Tips
-
-Some important tips, FYI.
-
-- [x] Strongly recommend Interstitial, more than 10 times profit than banner Ad. 
-
-Ad Format | Banner | Interstitial
----|-------|--------------
-Click Rate | < 1% | 3-15%
-RPM (revenue per 1000 impression) |  US$ 0.5~4 | US$ 10~100
-
-- [x] RPM top countries (stat data in recent 2 months, FYI):
-![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/stat_ref.png)
-
-- [x] Using SMART_BANNER to auto-fit the screen width, avoid using BANNER or FULL_BANNER (unless you are using DFP)
-
-- [x] Why Chooese Google AdMob ?
-
-Advertisement is main business and income source of Google, so the clients are all around the world. Google is one of the most realable partners for its high quality service.
-
-* High fill rate, nearly 100% all around world.
-* High quality Ad, bring high RPM.
-* Stable price, auto pay on time. Pay on every 20th next month.
 
 ## Video Tutorial
 
@@ -278,6 +270,15 @@ Advertisement is main business and income source of Google, so the clients are a
 
 [![Video](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/youtube_video.jpg)](http://youtu.be/GsBI97WjFQo)
 
+More video by developers:
+* [How to add banner ads to phonegap apps using AdMob Pro for android](https://youtu.be/VzoukTxnbhc), by pointDeveloper
+* [How to add Banner ads To Ionic apps with Admob Pro For android](https://youtu.be/qNg8c4J03dE), by pointDeveloper
+* [How To Add Banner Ads To Ionic 2 with AdMob Cordova Plugin](https://youtu.be/dfHPlVvIUR0), by pointDeveloper
+* [How to add Interstitial Add on navigation for phonegap using JavaScript and AdMob Pro plugin](https://youtu.be/5YvikM3ySXc), by pointDeveloper
+* [How to add banner ads to jQuery Mobile Apps using Phonegap AdMob Pro Plugin](https://youtu.be/ceCHJl0c908), by pointDeveloper
+* [Intel XDK - Monetizando seu aplicativo com Admob e intel xdk.](https://youtu.be/Bo_deb1vKYk), in Portuguese, by XDK PLUS
+* Interesting [Evolution of cordova-admob-pro (Gource Visualization)](https://youtu.be/yH66cHnY06M), by Landon Wilkins
+
 ## Screenshots
 
 iPhone Banner | iPhone Interstitial
@@ -286,13 +287,58 @@ iPhone Banner | iPhone Interstitial
 Android Banner | Android Interstitial
 ![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/android.jpg) | ![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/android_interstitial.jpg)
 
+## Tips
+
+Some important tips, FYI.
+
+![Recomended](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/good.png)
+
+- [x] Why Google AdMob is recommended ?
+
+Advertisement is main business and income source of Google, so clients are all around the world. Google is one of the most rialable partners for its high standard service.
+
+* High fill rate, nearly 100% all around world.
+* High quality Ad, bring high RPM.
+* Stable price, auto pay on time. Pay on every 20th next month.
+
+- [x] Strongly recommend Interstitial, more than 10 times profit than banner Ad. 
+
+Ad Format | Banner | Interstitial
+---|-------|--------------
+Click Rate | < 1% | 3-15%
+RPM (revenue per 1000 impression) |  US$ 0.5~4 | US$ 10~50
+
+- [x] Using SMART_BANNER to auto-fit the screen width, avoid using BANNER or FULL_BANNER (unless you are using DFP)
+
+![Warning](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/warning.png)
+
+⚠：Remember Google's slogan: "Don't be evil". Invalid usage violating Google rules, may cause your AdMob account suspended ! 
+
+* AdMob publisher may NOT abuse or encourage abuse any Google products, including Google Play, YouTube or Bolgger, incuding allow user downloading YouTube video, or embed YouTube video in your own apps.
+
+* Publishers may NOT click their own ads or use any means to inflate impressions and/or clicks artificially, including manual methods. Testing your own ads by clicking on them is not allowed.
+
+⚠：请记住谷歌的口号：“不作恶”。任何违反合作规范、损害广告商和用户利益的行为，会导致你的 APP 被下架，甚至你的 AdMob 帐号被禁用！
+
+* AdMob发布商不得滥用或鼓励滥用任何Google产品，如Google Play、YouTube或Blogger。这包括规避任何Google产品的政策或条款或提供规避途径，例如允许用户下载YouTube视频等。不得刻意引诱用户点击广告，也不可以在自己的APP中点击广告（测试只能使用非正式的测试广告）。
+
+More details, please read [AdMob & AdSense policies](https://support.google.com/admob/answer/6128543?hl=en&ref_topic=2745287)
+
+## License
+
+You can use this plugin for free during trial purpose. If it earns less than $1000 for you, you can continue to use for free. 
+
+If use in commercial project, please [get a license](http://rjfun.github.io/), or, you have monetized more than $1000 using this plugin, you are also required to: either get a commercial license ($20), or, no need pay but share 2% Ad traffic, read the [License Agreement](https://github.com/floatinghotpot/cordova-admob-pro/wiki/License-Agreement) for details. As a commercial customer, you will be supported with high priority, via private email or even Skype chat.
+
+If you hope to get a fully open source plugin (either need DIY, or hope to get full control on the code), use this open source one instead. Fork and pull request is welcome, but please mention it's derived source. Simply renaming then publishing to npm is forbidden. Open source project URL:
+https://github.com/floatinghotpot/cordova-plugin-admob
+
 ## Credits
 
 This project is created and maintained by Raymond Xie.
 
 More Cordova/PhoneGap plugins by Raymond Xie, [find them in plugin registry](http://plugins.cordova.io/#/search?search=rjfun), or [find them in npm](https://www.npmjs.com/~floatinghotpot).
 
-If use in commercial project and need email/skype support, please [get a license](http://rjfun.github.io/), you will be supported with high priority.
-
 Project outsourcing and consulting service is also available. Please [contact us](mailto:rjfun.mobile@gmail.com) if you have the business needs.
+
 

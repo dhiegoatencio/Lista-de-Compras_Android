@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.liteglue.SQLitePlugin\" /></feature>",
                             "count": 1
                         },
@@ -57,9 +53,6 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
-        },
         "io.litehelpers.cordova.sqlite": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
@@ -69,10 +62,10 @@
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
-        "cordova-plugin-admobpro": {
+        "cordova-plugin-extension": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
-        "cordova-plugin-extension": {
+        "cordova-plugin-admobpro": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         }
     },
@@ -84,15 +77,6 @@
             "pluginId": "com.ionic.keyboard",
             "clobbers": [
                 "cordova.plugins.Keyboard"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-            "id": "cordova-plugin-inappbrowser.inappbrowser",
-            "pluginId": "cordova-plugin-inappbrowser",
-            "clobbers": [
-                "cordova.InAppBrowser.open",
-                "window.open"
             ]
         },
         {
@@ -114,7 +98,6 @@
         {
             "file": "plugins/cordova-plugin-admobpro/www/AdMob.js",
             "id": "cordova-plugin-admobpro.AdMob",
-            "pluginId": "cordova-plugin-admobpro",
             "clobbers": [
                 "window.AdMob"
             ]
@@ -122,11 +105,10 @@
     ],
     "plugin_metadata": {
         "com.ionic.keyboard": "1.0.4",
-        "cordova-plugin-inappbrowser": "1.0.1-dev",
         "io.litehelpers.cordova.sqlite": "0.7.8-dev",
         "org.apache.cordova.console": "0.2.13",
         "org.apache.cordova.device": "0.3.0",
-        "cordova-plugin-admobpro": "2.9.8",
-        "cordova-plugin-extension": "1.2.1"
+        "cordova-plugin-extension": "1.5.1",
+        "cordova-plugin-admobpro": "2.25.0"
     }
 }

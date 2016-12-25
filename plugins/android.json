@@ -57,9 +57,6 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
-        },
         "io.litehelpers.cordova.sqlite": {
             "PACKAGE_NAME": "com.dhiegoatencio.listadecompra"
         },
