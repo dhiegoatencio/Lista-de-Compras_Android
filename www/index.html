@@ -85,7 +85,8 @@
 
               <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
               <span>
-                  <span class="done-text-{{item.done}}" ng-bind="todoList.getDescricaoItem(item)"></span>
+                  <span ng-bind="todoList.getDescricaoItem(item)">
+                  </span>
                   <span class="icon-item-options ion-ios-arrow-left"></span>
               </span>
               <ion-option-button class="ion-edit button-positive"
@@ -133,7 +134,7 @@
             <div class="list">
                 <div class="list list-inset">
                     <label class="item item-input">
-                        <span class="input-label">Item:</span>
+                        <span class="input-label">*Item:</span>
                         <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
                             ng-model="todoList.itemTemp.text"
                             ng-keydown="todoList.keyDownItemForm($event)">
@@ -144,6 +145,14 @@
                             ng-model="todoList.itemTemp.qtd"
                             ng-keydown="todoList.keyDownItemForm($event)">
                     </label>
+                    <label class="item item-input">
+                        <span class="input-label">Preço:</span>
+                        <input type="number" focus-on="qtd"
+                            ng-model="todoList.itemTemp.preco"
+                            ng-keydown="todoList.keyDownItemForm($event)">
+                    </label>
+                    <br>
+                    * Campos obrigatórios
                 </div>
             </div>
         </form>

@@ -6,7 +6,7 @@ angular.module('controllers', ['ionic'])
     var ctrl = this;
 	ctrl.lista = repository.getSelectedList();
 	ctrl.listas = repository.getLists();
-	ctrl.dateFormat = 'dd/MMM/yyyy HH:mm:ss';
+	ctrl.dateFormat = 'dd/MMM/yyyy HH:mm';
 
     ctrl.itemTemp = {};
     ctrl.indexEditing = {};
@@ -59,7 +59,8 @@ angular.module('controllers', ['ionic'])
 
 	ctrl.editItem = function(item, index){
 		ctrl.indexEditing = index;
-		ctrl.itemTemp     = {text: item.text, qtd: item.qtd, done: item.done};
+		//ctrl.itemTemp     = {text: item.text, qtd: item.qtd, done: item.done};
+		ctrl.itemTemp = angular.copy(item);
 		ctrl.statusItem = "";
 		ctrl.modal.show();
 	};
@@ -71,9 +72,23 @@ angular.module('controllers', ['ionic'])
 	});
 
 	ctrl.getListTitle = function (list, selected) {
-		if (list.indexOf(selected)) {
-			return selected.title || $filter('date')(selected.archived, ctrl.dateFormat);
+		var items = ctrl.lista.items,
+		    total = 0,
+			text;
+		if (items && items.length) {
+			items.forEach(function(item) {
+				total += (item.qtd || 0) * (item.preco || 0);
+			});
 		}
+
+		if (list.indexOf(selected)) {
+			text = selected.title || $filter('date')(selected.archived, ctrl.dateFormat);
+		}
+
+		if (total > 0) {
+			return $filter('currency')(total) + ' ' + (text || '');
+		}
+
 		return "Lista de Compras Simplificada";
 	};
 
@@ -85,11 +100,13 @@ angular.module('controllers', ['ionic'])
 		if (angular.isUndefined(idxItemEdited) || idxItemEdited === '') {
 			repository.addItem({
 				text: data.text,
-				qtd: data.qtd
+				qtd: data.qtd,
+				preco: data.preco
 			});
 	      	focus('text');
 		  	data.text = '';
 		  	data.qtd = '';
+			data.preco = '';
 			notifyService.alert("Salvo com sucesso");
 
 			if (window.cordova) {
@@ -99,6 +116,7 @@ angular.module('controllers', ['ionic'])
 			repository.updateItemByIndex(idxItemEdited, {
 				text: data.text,
 				qtd: data.qtd,
+				preco: data.preco,
 				done: data.done
 			});
 			ctrl.indexEditing = "";
@@ -118,7 +136,12 @@ angular.module('controllers', ['ionic'])
     };
 
     ctrl.getDescricaoItem = function(data){
-    	if (data.qtd) return data.qtd + " - " + data.text;
+    	if (data.qtd && data.preco) {
+			return  data.qtd + ' - ' + data.text + ' * ' + $filter('currency')(data.preco) +
+				 " = " + $filter('currency')(data.preco * data.qtd);
+		} else if (data.qtd) {
+			return  data.qtd + ' - ' + data.text;
+		}
     	return data.text;
     };
 

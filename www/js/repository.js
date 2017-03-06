@@ -39,6 +39,7 @@
             currentList.items.splice(index, 1, {
 				text: item.text,
 				qtd: item.qtd,
+                preco: item.preco,
 				done: item.done
 			});
         }
