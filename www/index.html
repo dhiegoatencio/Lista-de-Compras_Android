@@ -45,7 +45,7 @@
   </script>
 </head>
 <body ng-app="app" onload="onLoad()" onresize="onResize()"
-      ng-controller="TodoListController as todoList"
+      ng-controller="TodoListController as ctrl"
       style="background-color:#444444">
 <ion-pane>
 
@@ -54,9 +54,9 @@
         <div class="bar bar-header bar-dark">
             <a class="rate-icon button button-icon icon icon-left ion-heart"
                href="https://play.google.com/store/apps/details?id=com.dhiegoatencio.listadecompra"
-               ng-click="todoList.rate()"></a>
-            <h1 class="title" ng-bind="todoList.getListTitle(todoList.listas, todoList.lista)"></h1>
-            <a ng-click="todoList.help()"
+               ng-click="ctrl.rate()"></a>
+            <h1 class="title" ng-bind="ctrl.getListTitle(ctrl.listas, ctrl.lista)"></h1>
+            <a ng-click="ctrl.help()"
                class="button button-icon icon icon-right ion-help"></a>
         </div>
     </ion-header-bar>
@@ -70,30 +70,32 @@
           </label>
         -->
       <ion-list can-swipe="true">
-          <ion-item ng-if="todoList.lista.items.length == 0">
+          <ion-item ng-if="ctrl.lista.items.length == 0">
               Adicione item com o <i class="icon ion-plus-round"></i> do rodapé.
           </ion-item>
-          <ion-item ng-if="todoList.lista.items.length == 0">
+          <ion-item ng-if="ctrl.lista.items.length == 0">
               Me arraste para << e veja opções.
               <ion-option-button class="button-positive">Exemplo</ion-option-button>
               <ion-option-button class="button-assertive">Exemplo</ion-option-button>
           </ion-item>
 
-          <ion-item ng-repeat="item in todoList.lista.items"
+          <ion-item ng-repeat="item in ctrl.lista.items"
                     item="item"
                     ng-click="item.done = !item.done">
 
-              <i ng-if="item.done" class="ion-checkmark-circled positive"></i>
-              <span>
-                  <span ng-bind="todoList.getDescricaoItem(item)">
+              <i ng-if="item.done" class="item-icon-done ion-checkmark-circled positive"></i>
+              <span class="item-container">
+                  <span class="item-data-container">
+                    <span ng-bind="ctrl.getDescricaoItem(item)">
+                    </span>
                   </span>
-                  <span class="icon-item-options ion-ios-arrow-left"></span>
+                  <span class="item-icon icon-item-options ion-ios-arrow-left"></span>
               </span>
               <ion-option-button class="ion-edit button-positive"
-                                 ng-click="todoList.editItem(item, $index)">
+                                 ng-click="ctrl.editItem(item, $index)">
               </ion-option-button>
               <ion-option-button class="ion-trash-a button-assertive"
-                                 ng-click="todoList.removeItem($index)">
+                                 ng-click="ctrl.removeItem($index)">
               </ion-option-button>
 
           </ion-item>
@@ -101,13 +103,13 @@
     </ion-content>
 
     <ion-footer-bar class="tabs tabs-icon-left tabs-dark">
-        <a class="tab-item" ng-click="todoList.openModal()">
+        <a class="tab-item" ng-click="ctrl.openModal()">
             <i class="icon ion-plus-round"></i>
         </a>
-        <a class="tab-item" ng-click="todoList.confirmArchive()">
+        <a class="tab-item" ng-click="ctrl.confirmArchive()">
             <i class="icon ion-archive"></i>Arquivar
         </a>
-        <a class="tab-item" ng-click="todoList.openArquivados()">
+        <a class="tab-item" ng-click="ctrl.openArquivados()">
             <i class="icon ion-ios-filing"></i>Arquivados
         </a>
         <a class="tab-item" href="https://play.google.com/store/apps/details?id=com.dongames.getnumbers">
@@ -121,35 +123,35 @@
     <div class="modal">
         <div class="bar bar-header bar-calm">
             <button class="button ion-close"
-                    ng-click="todoList.closeModal()">  Fechar</button>
-            <h1 class="title">{{todoList.statusItem}}</h1>
+                    ng-click="ctrl.closeModal()">  Fechar</button>
+            <h1 class="title">{{ctrl.statusItem}}</h1>
 
-            <button ng-click="todoList.addItem(todoList.itemTemp, todoList.indexEditing)"
+            <button ng-click="ctrl.addItem(ctrl.itemTemp, ctrl.indexEditing)"
                 class="button ion-plus-round">  Salvar</button>
         </div>
 
         <br></br>
 
-        <form ng-submit="todoList.addItem(todoList.itemTemp, todoList.indexEditing)">
+        <form ng-submit="ctrl.addItem(ctrl.itemTemp, ctrl.indexEditing)">
             <div class="list">
                 <div class="list list-inset">
                     <label class="item item-input">
                         <span class="input-label">*Item:</span>
                         <input type="text" focus-on="text" placeholder="Refrigerante 2 litros"
-                            ng-model="todoList.itemTemp.text"
-                            ng-keydown="todoList.keyDownItemForm($event)">
+                            ng-model="ctrl.itemTemp.text"
+                            ng-keydown="ctrl.keyDownItemForm($event)">
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Quantidade:</span>
                         <input type="number" focus-on="qtd"
-                            ng-model="todoList.itemTemp.qtd"
-                            ng-keydown="todoList.keyDownItemForm($event)">
+                            ng-model="ctrl.itemTemp.qtd"
+                            ng-keydown="ctrl.keyDownItemForm($event)">
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Preço:</span>
                         <input type="number" focus-on="qtd"
-                            ng-model="todoList.itemTemp.preco"
-                            ng-keydown="todoList.keyDownItemForm($event)">
+                            ng-model="ctrl.itemTemp.preco"
+                            ng-keydown="ctrl.keyDownItemForm($event)">
                     </label>
                     <br>
                     * Campos obrigatórios
@@ -164,23 +166,27 @@
       <div class="modal">
         <div class="bar bar-header bar-calm">
             <button class="button"
-                    ng-click="todoList.closeArquivados()">Fechar</button>
+                    ng-click="ctrl.closeArquivados()">Fechar</button>
             <h1 class="title">Arquivados</h1>
         </div>
-
-
         <ion-content has-header="true">
             <br><br>
             <ion-list>
-                <ion-item ng-repeat="list in todoList.listas" ng-click="todoList.selectList(list)">
+                <ion-item ng-repeat="list in ctrl.listas"
+                    ng-click="ctrl.selectList(list)">
                     <span>
-                        <span>{{list.title || (list.archived | date: todoList.dateFormat) || 'Atual'}}</span>
-                        <span ng-if="todoList.isFirstList(list)" class="icon-item-options ion-ios-arrow-left"></span>
+                        <span>{{list.title || (list.archived | date: ctrl.dateFormat) || 'Atual'}}</span>
+                        <span ng-if="ctrl.isFirstList(list)"
+                            class="icon-item-options ion-ios-arrow-left"></span>
                     </span>
-                    <div ng-if="todoList.isFirstList(list)">
-                        <ion-option-button class="button-positive ion-edit" ng-click="todoList.renameList(list)">
+                    <div ng-if="ctrl.isFirstList(list)">
+                        <ion-option-button
+                            class="button-positive ion-edit"
+                            ng-click="ctrl.renameList(list)">
                         </ion-option-button>
-                        <ion-option-button ng-click="todoList.removeArchived(list)" class="ion-trash-a button-assertive">
+                        <ion-option-button
+                            ng-click="ctrl.removeArchived(list)"
+                            class="ion-trash-a button-assertive">
                         </ion-option-button>
                     </div>
                 </ion-item>

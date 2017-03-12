@@ -9,10 +9,27 @@
 
 .icon-item-options {
   float: right;
-  margin-right: -38px;
 }
 .rate-icon {
   color: #ff7575 !important;
+}
+
+.item-icon-done {
+  float: left;
+}
+.item-content {
+  padding-right: 16px !important;
+}
+.item-container {
+  display: flex;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.item-data-container {
+  width: 100%;
+}
+.item-icon.icon-item-options {
+  margin-right: -20px;
 }
 /*
 .item-content {
